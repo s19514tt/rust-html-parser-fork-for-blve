@@ -64,6 +64,40 @@ impl Default for Element {
     }
 }
 
+impl ToString for Element{
+    fn to_string(&self) -> String {
+        let mut string = String::new();
+        string.push_str(&format!("<{}", self.name));
+
+        if !self.classes.is_empty() {
+            string.push_str(&format!(" class=\"{}\"", self.classes.join(" ")));
+        }
+
+        for (key, value) in &self.attributes {
+            if let Some(value) = value {
+                string.push_str(&format!(" {}=\"{}\"", key, value));
+            } else {
+                string.push_str(&format!(" {}", key));
+            }
+        }
+
+        match self.variant {
+            ElementVariant::Normal => {
+                string.push_str(">");
+                for child in &self.children {
+                    string.push_str(&child.to_string());
+                }
+                string.push_str(&format!("</{}>", self.name));
+            }
+            ElementVariant::Void => {
+                string.push_str("/>");
+            }
+        }
+
+        string
+    }
+}
+
 fn ordered_map<S: Serializer>(value: &Attributes, serializer: S) -> Result<S::Ok, S::Error> {
     let ordered: BTreeMap<_, _> = value.iter().collect();
     ordered.serialize(serializer)

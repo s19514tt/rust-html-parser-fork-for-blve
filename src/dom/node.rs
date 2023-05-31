@@ -107,6 +107,16 @@ impl<'a> Iterator for NodeIntoIterator<'a> {
     }
 }
 
+impl ToString for Node {
+    fn to_string(&self) -> String {
+        match self {
+            Node::Text(t) => t.clone(),
+            Node::Element(e) => e.to_string(),
+            Node::Comment(_) => "".to_string(),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

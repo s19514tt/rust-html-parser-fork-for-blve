@@ -363,3 +363,13 @@ impl Dom {
         Ok(attribute)
     }
 }
+
+impl ToString for Dom {
+    fn to_string(&self) -> String {
+        let mut output = String::new();
+        for node in &self.children {
+            output.push_str(&node.to_string());
+        }
+        output
+    }
+}

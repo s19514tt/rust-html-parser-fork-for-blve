@@ -30,6 +30,22 @@ impl Node {
             _ => None,
         }
     }
+
+    pub fn is_text(&self) -> bool {
+        match self {
+            Node::Text(_) => true,
+            _ => false,
+        }
+    }
+
+    pub fn as_text(&self) -> String {
+        match self {
+            Node::Text(txt) => txt.clone(),
+            _ => {
+                panic!("Node is not text")
+            }
+        }
+    }
 }
 
 impl<'a> IntoIterator for &'a Node {

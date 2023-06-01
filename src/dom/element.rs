@@ -22,10 +22,6 @@ pub type Attributes = HashMap<String, Option<String>>;
 #[derive(Debug, Clone, Serialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Element {
-    /// The id of the element
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub id: Option<String>,
-
     /// The name / tag of the element
     pub name: String,
 
@@ -47,24 +43,23 @@ pub struct Element {
 
     /// Span of the element in the parsed source
     #[serde(skip)]
-    pub source_span: SourceSpan
+    pub source_span: SourceSpan,
 }
 
 impl Default for Element {
     fn default() -> Self {
         Self {
-            id: None,
             name: "".to_string(),
             variant: ElementVariant::Void,
             classes: vec![],
             attributes: HashMap::new(),
             children: vec![],
-            source_span: SourceSpan::default()
+            source_span: SourceSpan::default(),
         }
     }
 }
 
-impl ToString for Element{
+impl ToString for Element {
     fn to_string(&self) -> String {
         let mut string = String::new();
         string.push_str(&format!("<{}", self.name));
